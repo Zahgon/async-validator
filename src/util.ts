@@ -26,15 +26,7 @@ if (
   typeof document !== 'undefined'
 ) {
   warning = (type, errors) => {
-    if (
-      typeof console !== 'undefined' &&
-      console.warn &&
-      typeof ASYNC_VALIDATOR_NO_WARNING === 'undefined'
-    ) {
-      if (errors.every(e => typeof e === 'string')) {
-        console.warn(type, errors);
-      }
-    }
+      throw new Error("STUB");
   };
 }
 
@@ -44,9 +36,7 @@ export function convertFieldsError(
   if (!errors || !errors.length) return null;
   const fields = {};
   errors.forEach(error => {
-    const field = error.field;
-    fields[field] = fields[field] || [];
-    fields[field].push(error);
+      throw new Error("STUB");
   });
   return fields;
 }
@@ -62,27 +52,7 @@ export function format(
   }
   if (typeof template === 'string') {
     let str = template.replace(formatRegExp, x => {
-      if (x === '%%') {
-        return '%';
-      }
-      if (i >= len) {
-        return x;
-      }
-      switch (x) {
-        case '%s':
-          return String(args[i++]);
-        case '%d':
-          return (Number(args[i++]) as unknown) as string;
-        case '%j':
-          try {
-            return JSON.stringify(args[i++]);
-          } catch (_) {
-            return '[Circular]';
-          }
-          break;
-        default:
-          return x;
-      }
+        throw new Error("STUB");
     });
     return str;
   }
@@ -114,7 +84,7 @@ export function isEmptyValue(value: Value, type?: string) {
 }
 
 export function isEmptyObject(obj: object) {
-  return Object.keys(obj).length === 0;
+    throw new Error("STUB");
 }
 
 function asyncParallelArray(
@@ -127,15 +97,11 @@ function asyncParallelArray(
   const arrLength = arr.length;
 
   function count(errors: ValidateError[]) {
-    results.push(...(errors || []));
-    total++;
-    if (total === arrLength) {
-      callback(results);
-    }
+      throw new Error("STUB");
   }
 
   arr.forEach(a => {
-    func(a, count);
+      throw new Error("STUB");
   });
 }
 
@@ -167,7 +133,7 @@ function asyncSerialArray(
 function flattenObjArr(objArr: Record<string, RuleValuePackage[]>) {
   const ret: RuleValuePackage[] = [];
   Object.keys(objArr).forEach(k => {
-    ret.push(...(objArr[k] || []));
+      throw new Error("STUB");
   });
   return ret;
 }
@@ -200,16 +166,9 @@ export function asyncMap(
 ): Promise<Values> {
   if (option.first) {
     const pending = new Promise<Values>((resolve, reject) => {
-      const next = (errors: ValidateError[]) => {
-        callback(errors);
-        return errors.length
-          ? reject(new AsyncValidationError(errors, convertFieldsError(errors)))
-          : resolve(source);
-      };
-      const flattenArr = flattenObjArr(objArr);
-      asyncSerialArray(flattenArr, func, next);
+        throw new Error("STUB");
     });
-    pending.catch(e => e);
+    pending.catch(e => { throw new Error("STUB"); });
     return pending;
   }
   const firstFields =
@@ -222,32 +181,9 @@ export function asyncMap(
   let total = 0;
   const results: ValidateError[] = [];
   const pending = new Promise<Values>((resolve, reject) => {
-    const next = (errors: ValidateError[]) => {
-      results.push.apply(results, errors);
-      total++;
-      if (total === objArrLength) {
-        callback(results);
-        return results.length
-          ? reject(
-              new AsyncValidationError(results, convertFieldsError(results)),
-            )
-          : resolve(source);
-      }
-    };
-    if (!objArrKeys.length) {
-      callback(results);
-      resolve(source);
-    }
-    objArrKeys.forEach(key => {
-      const arr = objArr[key];
-      if (firstFields.indexOf(key) !== -1) {
-        asyncSerialArray(arr, func, next);
-      } else {
-        asyncParallelArray(arr, func, next);
-      }
-    });
+      throw new Error("STUB");
   });
-  pending.catch(e => e);
+  pending.catch(e => { throw new Error("STUB"); });
   return pending;
 }
 
@@ -270,22 +206,7 @@ function getValue(value: Values, path: string[]) {
 
 export function complementError(rule: InternalRuleItem, source: Values) {
   return (oe: ValidateError | (() => string) | string): ValidateError => {
-    let fieldValue;
-    if (rule.fullFields) {
-      fieldValue = getValue(source, rule.fullFields);
-    } else {
-      fieldValue = source[(oe as any).field || rule.fullField];
-    }
-    if (isErrorObj(oe)) {
-      oe.field = oe.field || rule.fullField;
-      oe.fieldValue = fieldValue;
-      return oe;
-    }
-    return {
-      message: typeof oe === 'function' ? oe() : oe,
-      fieldValue,
-      field: ((oe as unknown) as ValidateError).field || rule.fullField,
-    };
+      throw new Error("STUB");
   };
 }
 

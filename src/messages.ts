@@ -48,9 +48,7 @@ export function newMessages(): InternalValidateMessages {
       mismatch: '%s value %s does not match pattern %s',
     },
     clone() {
-      const cloned = JSON.parse(JSON.stringify(this));
-      cloned.clone = this.clone;
-      return cloned;
+        throw new Error("STUB");
     },
   };
 }

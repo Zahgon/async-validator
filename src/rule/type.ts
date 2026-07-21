@@ -19,28 +19,16 @@ const types = {
     return types.number(value) && parseInt(value, 10) === value;
   },
   float(value: Value) {
-    return types.number(value) && !types.integer(value);
+      throw new Error("STUB");
   },
   array(value: Value) {
     return Array.isArray(value);
   },
   regexp(value: Value) {
-    if (value instanceof RegExp) {
-      return true;
-    }
-    try {
-      return !!new RegExp(value);
-    } catch (e) {
-      return false;
-    }
+      throw new Error("STUB");
   },
   date(value: Value) {
-    return (
-      typeof value.getTime === 'function' &&
-      typeof value.getMonth === 'function' &&
-      typeof value.getYear === 'function' &&
-      !isNaN(value.getTime())
-    );
+      throw new Error("STUB");
   },
   number(value: Value) {
     if (isNaN(value)) {
@@ -49,27 +37,19 @@ const types = {
     return typeof value === 'number';
   },
   object(value: Value) {
-    return typeof value === 'object' && !types.array(value);
+      throw new Error("STUB");
   },
   method(value: Value) {
-    return typeof value === 'function';
+      throw new Error("STUB");
   },
   email(value: Value) {
-    return (
-      typeof value === 'string' &&
-      value.length <= 320 &&
-      !!value.match(pattern.email)
-    );
+      throw new Error("STUB");
   },
   url(value: Value) {
-    return (
-      typeof value === 'string' &&
-      value.length <= 2048 &&
-      !!value.match(getUrlRegex())
-    );
+      throw new Error("STUB");
   },
   hex(value: Value) {
-    return typeof value === 'string' && !!value.match(pattern.hex);
+      throw new Error("STUB");
   },
 };
 
